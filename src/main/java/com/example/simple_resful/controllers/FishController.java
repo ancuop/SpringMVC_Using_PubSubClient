@@ -44,6 +44,16 @@ public class FishController {
         return "/about";
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String openLoginPage(Model model) {
+        return "/login";
+    }
+
+    @RequestMapping(value = "403", method = RequestMethod.GET)
+    public String goto430Page(Model model) {
+        return "/error/403";
+    }
+
     // For controller
 
     @RequestMapping(value = "/feedNow", method = RequestMethod.GET)
