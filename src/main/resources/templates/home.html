@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome Page</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <!--<link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/html"/>-->
+</head>
+
+<body>
+    <h1>Hello !</h1>
+    <p>Welcome to <span th:text="${appName}">Our Page</span></p>
+</body>
+
+</html>
