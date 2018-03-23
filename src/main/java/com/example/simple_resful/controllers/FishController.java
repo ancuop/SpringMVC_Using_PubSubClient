@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/fish")
 public class FishController {
 
     private final static Logger logger = LoggerFactory.getLogger(FishController.class);
@@ -25,26 +24,33 @@ public class FishController {
     @Value("${message.welcome}")
     private String welcomeMessage;
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String home(Model model) {
+    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
+    public String openHomePage(Model model) {
         model.addAttribute("welcomeMessage", welcomeMessage);
         model.addAttribute("fishControls", fishControls);
-        return "fish_home";
+        return "/home";
     }
 
-    @RequestMapping(value = "/fish_control", method = RequestMethod.GET)
+    @RequestMapping(value = "/control", method = RequestMethod.GET)
     public String openFishControlPage(Model model) {
         logger.info("### open fish control page");
         FeedFishForm feedFishForm = new FeedFishForm();
         model.addAttribute("feedFishForm", feedFishForm);
-        return "fish_control";
+        return "/control";
     }
+
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public String openAboutPage(Model model) {
+        return "/about";
+    }
+
+    // For controller
 
     @RequestMapping(value = "/feedNow", method = RequestMethod.GET)
     public String feedNow(Model model) {
         logger.info("### feed now");
         model.addAttribute("infoMessage", "feeded fish");
-        return "fish_control";
+        return "control";
     }
 
     @RequestMapping(value = "feedAfterTime", method = RequestMethod.POST)
@@ -57,7 +63,6 @@ public class FishController {
         // return "redirect:/fish/fish_control";
 
         fishControls.add(new FishControl(milligram, time));
-
-        return "redirect:/fish/home";
+        return "redirect:/home";
     }
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Fish Feed</title>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container">
+        <div class="start-template">
+            <h1>Day la trang cho ca an</h1>
+            <!--Nut nay la cho ca an ngay lap tuc-->
+            <a th:href="feedNow">Cho may con qui ca an ngay lap tuc</a>
+            <!--<br/>-->
+            <!--&lt;!&ndash;Hen gio cho ca an&ndash;&gt;-->
+            <form th:action="feedAfterTime" th:object="${feedFishForm}" th:method="post">
+                Milligram: <input type="text" th:field="*{milligram}"/>
+                <br/>
+                Time: <input type="text" th:field="*{time}"/>
+                <br/>
+                <input type="submit" value="Submit"/>
+            </form>
+
+            <h3 th:if="${infoMessage}" th:text="${infoMessage}"></h3>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+
+

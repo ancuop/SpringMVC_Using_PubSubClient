@@ -1,16 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8"/>
-    <title>Welcome Page</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <!--<link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" type="text/html"/>-->
+    <title>Fish Feed</title>
+    <div th:replace="fragments/header :: header-css"></div>
 </head>
 
 <body>
-    <h1>Hello !</h1>
-    <p>Welcome to <span th:text="${appName}">Our Page</span></p>
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container">
+        <div class="starter-template">
+            <a th:href="giothieu">GioiThieu</a>
+            <a th:href="fish_control">ChoCaAn</a>
+
+            <h1>This is for testing</h1>
+
+            <div>
+                <table border="3">
+                    <tr>
+                        <th>milligram</th>
+                        <th>time</th>
+                    </tr>
+                    <tr th:each="control : ${fishControls}">
+                        <th th:text="${control.milligram}">...</th>
+                        <th th:text="${control.time}">...</th>
+                    </tr>
+                </table>
+            </div>
+
+            <h2 th:text="${welcomeMessage}">!</h2>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 
 </html>

@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mqtt")
 public class MqttController {
 
-    @Autowired
-    MQTTPublisherBase publisher;
-
-    @RequestMapping(value = "/mqtt/send", method = RequestMethod.POST)
-    public String index(@RequestBody String data) {
-        publisher.publishMessage("esp_sub", data);
-        return "Message sent to broker";
-    }
+//    @Autowired
+//    MQTTPublisherBase publisher;
+//
+//    @RequestMapping(value = "/mqtt/send", method = RequestMethod.POST)
+//    public String index(@RequestBody String data) {
+//        publisher.publishMessage("esp_sub", data);
+//        return "Message sent to broker";
+//    }
 
 }
