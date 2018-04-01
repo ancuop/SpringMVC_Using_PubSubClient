@@ -1,0 +1,39 @@
+
+-- Dumping database structure for concretepage
+CREATE DATABASE IF NOT EXISTS `fish`;
+USE `fish`;
+
+DROP TABLE IF EXISTS `account`;
+-- Dumping structure for table concretepage.users
+CREATE TABLE IF NOT EXISTS `account` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `registered_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping structure for table concretepage.articles
+CREATE TABLE IF NOT EXISTS `board` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `board_id` varchar(200) NOT NULL,
+  `board_name` varchar(100) NOT NULL,
+  `registered_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `account_board`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_board` (
+  `account_id` int(10) unsigned NOT NULL,
+  `board_id` int(10) unsigned NOT NULL,
+  `registered_date` datetime DEFAULT NULL,
+  `board_role` varchar(50) NOT NULL,
+  PRIMARY KEY (`account_id`,`board_id`),
+  KEY `fk_accountboard_account_idx` (`account_id`),
+  CONSTRAINT `fk_accountboard_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_accountboard_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

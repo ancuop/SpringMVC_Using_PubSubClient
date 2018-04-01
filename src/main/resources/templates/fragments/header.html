@@ -1,10 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:fragment="header-css">
-        <!-- this is header-css -->
-        <link rel="stylesheet" type="text/css"
-              th:href="@{webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
-        <link rel="stylesheet" th:href="@{/css/style.css}" href="../../css/style.css"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/style.css"/>
 
     </div>
 </head>
@@ -22,6 +22,9 @@
                     <li class="active"><a th:href="@{/}">Home</a></li>
                     <li class="active"><a th:href="@{/control}">Control</a></li>
                     <li class="active"><a th:href="@{/about}">About</a></li>
+                    <!--<ul class="nav navbar-nav">-->
+                        <!--<li class="active"><a th:href="@{/registration}">Register</a></li>-->
+                    <!--</ul>-->
                 </ul>
             </div>
         </div>

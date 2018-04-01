@@ -14,10 +14,6 @@ footer{
     margin-top:60px;
 }
 
-table {
-    border-collapse: collapse;
-}
-
-table th, table td {
-    padding: 5px;
+body {
+    background-color: lightblue;
 }

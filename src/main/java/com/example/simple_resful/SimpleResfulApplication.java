@@ -1,39 +1,25 @@
 package com.example.simple_resful;
 
-import com.example.simple_resful.MQTT.MessageListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.boot.autoconfigure.domain.EntityScan;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.ComponentScan;
-//import org.springframework.core.task.TaskExecutor;
-//import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+/*
+* Springboot and thymeleaf
+*   https://o7planning.org/en/11545/spring-boot-and-thymeleaf-tutorial
+* Springboot and security simple:
+*   http://www.mkyong.com/spring-boot/spring-boot-spring-security-thymeleaf-example/
+* Springboot and security with thymeleaf and create and configure mysql
+* 	https://www.concretepage.com/spring-boot/spring-boot-mvc-security-custom-login-and-logout-thymeleaf-csrf-mysql-database-jpa-hibernate-example
+* How to use bootstrap and jquery
+*   http://javasampleapproach.com/java-integration/integrate-springboot-bootstrap-jquery
+* Add annotation @FieldMatch from
+*   https://memorynotfound.com/field-matching-bean-validation-annotation-example/
+* create registration page
+*   https://memorynotfound.com/spring-security-user-registration-example-thymeleaf/
+* */
 
-//@ServletComponentScan
-//@ComponentScan("com.example")
-// To scan specified package for repositories
-//@EnableJpaRepositories("com.example.simple_resful.repository")
-// To pick up our JPA entity
-//@EntityScan("com.example.simple_resful.models")
 @SpringBootApplication
 public class SimpleResfulApplication {
-//
-//    @Autowired
-//    MessageListener messageListener;
-
 	public static void main(String[] args) {
 		SpringApplication.run(SimpleResfulApplication.class, args);
 	}
-//
-//	@Bean
-//    public CommandLineRunner schedulingRunner(TaskExecutor executor) {
-//	    return new CommandLineRunner() {
-//            @Override
-//            public void run(String... strings) throws Exception {
-//                executor.execute(messageListener);
-//            }
-//        };
-//    }
 }

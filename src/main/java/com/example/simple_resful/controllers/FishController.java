@@ -1,32 +1,66 @@
 package com.example.simple_resful.controllers;
 
+import com.example.simple_resful.form.AccountForm;
 import com.example.simple_resful.form.FeedFishForm;
+import com.example.simple_resful.models.Account;
 import com.example.simple_resful.models.FishControl;
+import com.example.simple_resful.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class FishController {
 
+    @Autowired
+    private AccountService accountService;
+
     private final static Logger logger = LoggerFactory.getLogger(FishController.class);
 
     private List<FishControl> fishControls = new ArrayList<>();
 
-    @Value("${message.welcome}")
-    private String welcomeMessage;
+    // ======== registration ========
+    // can create another controller class for cleaner
+    // refer to: https://memorynotfound.com/spring-security-user-registration-example-thymeleaf/
+    @GetMapping(value = "registration")
+    public ModelAndView openRegistrationPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        AccountForm accountForm = new AccountForm();
+        modelAndView.addObject("accountForm", accountForm);
+        modelAndView.setViewName("registration");
+        return modelAndView;
+    }
 
-    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
+    // @Valid se validate cac constraint added trong class (@NotEmply, @FieldMatch, ... )roi moi nhay vo function
+    // Neu khong add @Valid thi cac constraint kia se 0 duoc check
+    @PostMapping(value = "registration")
+    public String registrationAccount(
+            @ModelAttribute("accountForm") @Valid AccountForm accountForm,
+            BindingResult result) {
+        Account existAccount = accountService.getAccount(accountForm.getUsername());
+        if (existAccount != null) {
+            result.rejectValue("username", null, "There is already an account registered with that email");
+        }
+        if (result.hasErrors()) {
+            return "registration";
+        }
+        accountService.save(accountForm);
+        return "redirect:/registration?success";
+    }
+
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String openHomePage(Model model) {
-        model.addAttribute("welcomeMessage", welcomeMessage);
+        model.addAttribute("welcomeMessage", "Hello sanh");
         model.addAttribute("fishControls", fishControls);
         return "/home";
     }
@@ -49,30 +83,34 @@ public class FishController {
         return "/login";
     }
 
-    @RequestMapping(value = "403", method = RequestMethod.GET)
-    public String goto430Page(Model model) {
-        return "/error/403";
+    @GetMapping("error/403")
+    public ModelAndView error() {
+        ModelAndView modelAndView = new ModelAndView();
+        String errorMsg = "You are not authorized for the requested data.";
+        modelAndView.addObject("errorMsg", errorMsg);
+        modelAndView.setViewName("error/403");
+        return modelAndView;
     }
-
-    // For controller
-
-    @RequestMapping(value = "/feedNow", method = RequestMethod.GET)
-    public String feedNow(Model model) {
-        logger.info("### feed now");
-        model.addAttribute("infoMessage", "feeded fish");
-        return "control";
-    }
-
-    @RequestMapping(value = "feedAfterTime", method = RequestMethod.POST)
-    public String feedAfterTime(Model model, @ModelAttribute(value = "FeedFishForm")FeedFishForm feedFishForm) {
-        String milligram = feedFishForm.getMilligram();
-        String time = feedFishForm.getTime();
-        logger.info("milligram: " + milligram + ", time: " + time);
-        /* ham nay phai dung redirect thi moi duoc*/
-        // model.addAttribute("infoMessage", "milligram: " + milligram + ", time: " + time);
-        // return "redirect:/fish/fish_control";
-
-        fishControls.add(new FishControl(milligram, time));
-        return "redirect:/home";
-    }
+//
+//    // For controller
+//
+//    @RequestMapping(value = "/feedNow", method = RequestMethod.GET)
+//    public String feedNow(Model model) {
+//        logger.info("### feed now");
+//        model.addAttribute("infoMessage", "feeded fish");
+//        return "control";
+//    }
+//
+//    @RequestMapping(value = "feedAfterTime", method = RequestMethod.POST)
+//    public String feedAfterTime(Model model, @ModelAttribute(value = "FeedFishForm")FeedFishForm feedFishForm) {
+//        String milligram = feedFishForm.getMilligram();
+//        String time = feedFishForm.getTime();
+//        logger.info("milligram: " + milligram + ", time: " + time);
+//        /* ham nay phai dung redirect thi moi duoc*/
+//        // model.addAttribute("infoMessage", "milligram: " + milligram + ", time: " + time);
+//        // return "redirect:/fish/fish_control";
+//
+//        fishControls.add(new FishControl(milligram, time));
+//        return "redirect:/home";
+//    }
 }
