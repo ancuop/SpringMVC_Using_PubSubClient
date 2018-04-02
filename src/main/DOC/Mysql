@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Dumping structure for table concretepage.articles
 CREATE TABLE IF NOT EXISTS `board` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `board_id` varchar(200) NOT NULL,
+  `board_mac` varchar(200) NOT NULL,
   `board_name` varchar(100) NOT NULL,
   `registered_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -33,7 +33,7 @@ CREATE TABLE `account_board` (
   `registered_date` datetime DEFAULT NULL,
   `board_role` varchar(50) NOT NULL,
   PRIMARY KEY (`account_id`,`board_id`),
-  KEY `fk_accountboard_account_idx` (`account_id`),
-  CONSTRAINT `fk_accountboard_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_accountboard_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_accountboard_account_idx` (`board_id`),
+  CONSTRAINT `fk_accountboard_board` FOREIGN KEY (`board_id`) REFERENCES `board` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_accountboard_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

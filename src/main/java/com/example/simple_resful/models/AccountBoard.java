@@ -11,18 +11,17 @@ public class AccountBoard implements Serializable {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
     @Id
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
+
     @Column(name = "board_role")
     private String boardRole;
+
     @Column(name = "registered_date")
     private Date registeredDate;
-
-    public void setBoardRole(String boardRole) {
-        this.boardRole = boardRole;
-    }
 
     public void setAccount(Account account) {
         this.account = account;
@@ -32,12 +31,12 @@ public class AccountBoard implements Serializable {
         this.board = board;
     }
 
-    public void setRegisteredDate(Date registeredDate) {
-        this.registeredDate = registeredDate;
+    public void setBoardRole(String boardRole) {
+        this.boardRole = boardRole;
     }
 
-    public String getBoardRole() {
-        return boardRole;
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
     }
 
     public Account getAccount() {
@@ -46,6 +45,10 @@ public class AccountBoard implements Serializable {
 
     public Board getBoard() {
         return board;
+    }
+
+    public String getBoardRole() {
+        return boardRole;
     }
 
     public Date getRegisteredDate() {

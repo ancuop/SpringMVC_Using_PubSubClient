@@ -2,6 +2,7 @@ package com.example.simple_resful.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,8 +13,8 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
-    @Column(name = "board_id", nullable = false, unique = true)
-    private String boardId; // mac address
+    @Column(name = "board_mac", nullable = false, unique = true)
+    private String boardMac; // mac address
     @Column(name = "board_name", nullable = false)
     private String boardName;   // mac address used to show board name. Can be revised
     @Column(name = "registered_date")
@@ -24,20 +25,22 @@ public class Board {
 
     //Must have this no-arg constructor. If not it will raise error "No default constructor for entity"
     public Board() {
+        this.registeredDate = new Date();
     }
 
-    public Board(String boardId) {
-        this.boardId = boardId;
-        this.boardName = boardId;
+    public Board(String boardMac, String boardName) {
+        this.boardMac = boardMac;
+        this.boardName = boardName;
         this.registeredDate = new Date();
+        this.accountBoards = new HashSet<>();
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setBoardId(String boardId) {
-        this.boardId = boardId;
+    public void setBoardMac(String boardMac) {
+        this.boardMac = boardMac;
     }
 
     public void setBoardName(String boardName) {
@@ -53,22 +56,22 @@ public class Board {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
-    public String getBoardId() {
-        return boardId;
+    public String getBoardMac() {
+        return this.boardMac;
     }
 
     public String getBoardName() {
-        return boardName;
+        return this.boardName;
     }
 
     public Date getRegisteredDate() {
-        return registeredDate;
+        return this.registeredDate;
     }
 
     public Set<AccountBoard> getAccountBoards() {
-        return accountBoards;
+        return this.accountBoards;
     }
 }

@@ -1,14 +1,16 @@
 package com.example.simple_resful.controllers;
 
 import com.example.simple_resful.form.AccountForm;
+import com.example.simple_resful.form.AddBoardForm;
 import com.example.simple_resful.form.FeedFishForm;
 import com.example.simple_resful.models.Account;
+import com.example.simple_resful.models.Board;
 import com.example.simple_resful.models.FishControl;
 import com.example.simple_resful.service.AccountService;
+import com.example.simple_resful.service.BoardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,8 @@ public class FishController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private BoardService boardService;
 
     private final static Logger logger = LoggerFactory.getLogger(FishController.class);
 
@@ -65,12 +69,39 @@ public class FishController {
         return "/home";
     }
 
-    @RequestMapping(value = "/control", method = RequestMethod.GET)
-    public String openFishControlPage(Model model) {
+    // ======== registration ========
+    @GetMapping(value = "/control")
+    public ModelAndView openFishControlPage(Model model) {
         logger.info("### open fish control page");
+        ModelAndView modelAndView = new ModelAndView();
         FeedFishForm feedFishForm = new FeedFishForm();
-        model.addAttribute("feedFishForm", feedFishForm);
-        return "/control";
+        AddBoardForm addBoardForm = new AddBoardForm();
+        modelAndView.addObject("addBoardForm", addBoardForm);
+        modelAndView.addObject("feedFishForm", feedFishForm);
+        modelAndView.setViewName("control");
+        return modelAndView;
+    }
+
+    // TODO when error occurs on field, there is some bug
+    @PostMapping(value = "/control/addBoard")
+    public String addBoard(
+            @ModelAttribute("addBoardForm") @Valid AddBoardForm addBoardFrom,
+            BindingResult result) {
+
+        logger.error("### addBoard");
+        Board boardExist = boardService.getBoard(addBoardFrom.getBoardMac());
+        if (boardExist != null) {
+            result.rejectValue("boardMac", null, "This board is already created");
+        }
+
+        if (result.hasErrors()) {
+            logger.error("### addBoard hasErrors");
+            return "redirect:/control";
+        }
+        logger.error("### addBoard board NOT exist");
+
+        boardService.save(addBoardFrom);
+        return "redirect:/control?success";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)

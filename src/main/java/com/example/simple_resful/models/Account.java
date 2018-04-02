@@ -25,12 +25,15 @@ public class Account {
     private Set<AccountBoard> accountBoards;
 
     public Account() {
+        // may not need, because board will update this
+        accountBoards = new HashSet<>();
     }
 
     public Account(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
+        // may not need, because board will update this
         accountBoards = new HashSet<>();
         registeredDate = new Date();
     }
