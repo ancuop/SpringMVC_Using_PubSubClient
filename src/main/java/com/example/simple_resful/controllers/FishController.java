@@ -11,6 +11,8 @@ import com.example.simple_resful.service.BoardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -69,39 +71,47 @@ public class FishController {
         return "/home";
     }
 
-    // ======== registration ========
+    // ======== control ========
     @GetMapping(value = "/control")
-    public ModelAndView openFishControlPage(Model model) {
-        logger.info("### open fish control page");
+    public ModelAndView openFishControlPage() {
         ModelAndView modelAndView = new ModelAndView();
-        FeedFishForm feedFishForm = new FeedFishForm();
-        AddBoardForm addBoardForm = new AddBoardForm();
-        modelAndView.addObject("addBoardForm", addBoardForm);
-        modelAndView.addObject("feedFishForm", feedFishForm);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<Board> accountBoards = accountService.getAccountBoards(authentication.getName());
+        modelAndView.addObject("accountBoards", accountBoards);
         modelAndView.setViewName("control");
         return modelAndView;
     }
 
-    // TODO when error occurs on field, there is some bug
+    @GetMapping(value = "/control/addBoard")
+    public ModelAndView openAddBoardPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        AddBoardForm addBoardForm = new AddBoardForm();
+        modelAndView.addObject("addBoardForm", addBoardForm);
+        modelAndView.setViewName("addBoard");
+        return modelAndView;
+    }
+
     @PostMapping(value = "/control/addBoard")
     public String addBoard(
             @ModelAttribute("addBoardForm") @Valid AddBoardForm addBoardFrom,
             BindingResult result) {
 
-        logger.error("### addBoard");
+        /* TODO cho nay sai. vi neu board co san roi, phai kiem tra co
+           accountBoard khong chu khong phai kiem tra co board hay 0
+           ## Test bang cach lay account nao chua co board da co san, add board da co san do vo*/
         Board boardExist = boardService.getBoard(addBoardFrom.getBoardMac());
         if (boardExist != null) {
             result.rejectValue("boardMac", null, "This board is already created");
         }
-
         if (result.hasErrors()) {
-            logger.error("### addBoard hasErrors");
-            return "redirect:/control";
+            return "/addBoard";
         }
-        logger.error("### addBoard board NOT exist");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        addBoardFrom.setAdminName(authentication.getName());
 
         boardService.save(addBoardFrom);
-        return "redirect:/control?success";
+        return "redirect:/control";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)

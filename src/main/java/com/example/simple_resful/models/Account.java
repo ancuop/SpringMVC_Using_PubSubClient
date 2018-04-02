@@ -19,24 +19,35 @@ public class Account {
     @Column(name = "role")
     private String role;
     @Column(name = "registered_date")
-    private Date registeredDate;
+    private Date registeredDate = new Date();
     @OneToMany(targetEntity = AccountBoard.class, mappedBy = "account",
             cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<AccountBoard> accountBoards;
+    private Set<AccountBoard> accountBoards = new HashSet<>();
 
     public Account() {
-        // may not need, because board will update this
-        accountBoards = new HashSet<>();
     }
 
     public Account(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
-        // may not need, because board will update this
-        accountBoards = new HashSet<>();
-        registeredDate = new Date();
     }
+
+    // TODO follow ham nay de viet ham remove board
+//    public void removeTag(Tag tag) {
+//        for (Iterator<PostTag> iterator = tags.iterator();
+//             iterator.hasNext(); ) {
+//            PostTag postTag = iterator.next();
+//
+//            if (postTag.getPost().equals(this) &&
+//                    postTag.getTag().equals(tag)) {
+//                iterator.remove();
+//                postTag.getTag().getPosts().remove(postTag);
+//                postTag.setPost(null);
+//                postTag.setTag(null);
+//            }
+//        }
+//    }
 
     public void setId(int accountId) {
         this.id = accountId;

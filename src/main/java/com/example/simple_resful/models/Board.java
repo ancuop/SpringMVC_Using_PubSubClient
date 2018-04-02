@@ -18,21 +18,19 @@ public class Board {
     @Column(name = "board_name", nullable = false)
     private String boardName;   // mac address used to show board name. Can be revised
     @Column(name = "registered_date")
-    private Date registeredDate;
+    private Date registeredDate = new Date();
     @OneToMany(targetEntity = AccountBoard.class, mappedBy = "board",
             cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<AccountBoard> accountBoards;
+    private Set<AccountBoard> accountBoards = new HashSet<>();
 
-    //Must have this no-arg constructor. If not it will raise error "No default constructor for entity"
+    //Must have this no-arg constructor.
+    // If not it will raise error "No default constructor for entity"
     public Board() {
-        this.registeredDate = new Date();
     }
 
     public Board(String boardMac, String boardName) {
         this.boardMac = boardMac;
         this.boardName = boardName;
-        this.registeredDate = new Date();
-        this.accountBoards = new HashSet<>();
     }
 
     public void setId(int id) {

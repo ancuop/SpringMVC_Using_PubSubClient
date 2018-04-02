@@ -5,9 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class AddBoardForm {
     @NotEmpty
     private String boardMac;
-    @NotEmpty
     private String boardName;
-    @NotEmpty
     private String adminName;
 
     public AddBoardForm() {

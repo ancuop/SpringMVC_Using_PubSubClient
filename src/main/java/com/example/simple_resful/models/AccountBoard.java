@@ -21,7 +21,7 @@ public class AccountBoard implements Serializable {
     private String boardRole;
 
     @Column(name = "registered_date")
-    private Date registeredDate;
+    private Date registeredDate = new Date();
 
     public void setAccount(Account account) {
         this.account = account;

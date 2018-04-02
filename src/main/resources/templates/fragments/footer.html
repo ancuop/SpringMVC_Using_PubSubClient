@@ -15,9 +15,10 @@
                 <!-- this is footer -->
                 &copy; 2017 thisisfortesting.com
                 <span sec:authorize="isAuthenticated()">
-                    | Logged user: <span sec:authentication="name"></span> |
-                    Roles: <span sec:authentication="principal.authorities"></span> |
-                    <a th:href="@{/app-logout}">Log Out</a>
+                    | Logged user: <span sec:authentication="name"></span>
+                    <!--|-->
+                    <!--Roles: <span sec:authentication="principal.authorities"></span> |-->
+                    <!--<a th:href="@{/app-logout}">Log Out</a>-->
                 </span>
 
                 <script type="text/javascript"

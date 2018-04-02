@@ -28,32 +28,17 @@ public class BoardServiceImpl implements BoardService {
 
     // this is use for ADMIN add board
     @Override
-//    @Transactional
+    @Transactional
     public void save(AddBoardForm addBoardFrom) {
         String boardName = addBoardFrom.getBoardName().isEmpty() == true ?
                 addBoardFrom.getBoardMac() : addBoardFrom.getBoardName();
-        // add new board to board database
-//        Board board = new Board(addBoardFrom.getBoardMac(), boardName);
-//        boardRepository.save(board);
-//        // add board account to account_board database
-//        Account account = accountRepository.findByUsername(addBoardFrom.getAdminName());
-//        AccountBoard accountBoard = new AccountBoard();
-//        accountBoard.setAccount(account);
-//        accountBoard.setBoard(board);
-//        accountBoard.setBoardRole("BOARD_ADMIN");
-//        accountBoard.setRegisteredDate(new Date());
-//        account.getAccountBoards().add(accountBoard);
-//        accountRepository.save(account);
-
         Board board = new Board(addBoardFrom.getBoardMac(), boardName);
         AccountBoard accountBoard = new AccountBoard();
         Account account = accountRepository.findByUsername(addBoardFrom.getAdminName());
         accountBoard.setAccount(account);
         accountBoard.setBoard(board);
         accountBoard.setBoardRole("BOARD_ADMIN");
-        accountBoard.setRegisteredDate(new Date());
         board.getAccountBoards().add(accountBoard);
         boardRepository.save(board);
-
     }
 }
