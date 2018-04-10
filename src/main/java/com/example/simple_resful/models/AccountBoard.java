@@ -7,14 +7,16 @@ import java.util.Date;
 @Entity
 @Table(name = "account_board")
 public class AccountBoard implements Serializable {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "account_id")
+
+    @EmbeddedId
+    private AccountBoardId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("accountId")
     private Account account;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "board_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("boardId")
     private Board board;
 
     @Column(name = "board_role")
@@ -22,6 +24,16 @@ public class AccountBoard implements Serializable {
 
     @Column(name = "registered_date")
     private Date registeredDate = new Date();
+
+    private AccountBoard() {
+    }
+
+    public AccountBoard(Account account, Board board, String boardRole) {
+        this.account = account;
+        this.board = board;
+        this.boardRole = boardRole;
+        this.id = new AccountBoardId(account.getId(), board.getId());
+    }
 
     public void setAccount(Account account) {
         this.account = account;

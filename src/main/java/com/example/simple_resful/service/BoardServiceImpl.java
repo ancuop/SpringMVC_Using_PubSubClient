@@ -33,12 +33,11 @@ public class BoardServiceImpl implements BoardService {
         String boardName = addBoardFrom.getBoardName().isEmpty() == true ?
                 addBoardFrom.getBoardMac() : addBoardFrom.getBoardName();
         Board board = new Board(addBoardFrom.getBoardMac(), boardName);
-        AccountBoard accountBoard = new AccountBoard();
-        Account account = accountRepository.findByUsername(addBoardFrom.getAdminName());
-        accountBoard.setAccount(account);
-        accountBoard.setBoard(board);
-        accountBoard.setBoardRole("BOARD_ADMIN");
-        board.getAccountBoards().add(accountBoard);
         boardRepository.save(board);
+        Account account = accountRepository.findByUsername(addBoardFrom.getAdminName());
+        AccountBoard accountBoard = new AccountBoard(account, board, "BOARD_ADMIN");
+        account.getAccountBoards().add(accountBoard);
+        accountRepository.save(account);
+
     }
 }

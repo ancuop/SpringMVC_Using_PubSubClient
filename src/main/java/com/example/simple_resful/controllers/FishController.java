@@ -8,6 +8,7 @@ import com.example.simple_resful.models.Board;
 import com.example.simple_resful.models.FishControl;
 import com.example.simple_resful.service.AccountService;
 import com.example.simple_resful.service.BoardService;
+import com.example.simple_resful.service.TestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,19 @@ public class FishController {
     private AccountService accountService;
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private TestService testService;
 
     private final static Logger logger = LoggerFactory.getLogger(FishController.class);
 
     private List<FishControl> fishControls = new ArrayList<>();
+
+    @GetMapping(name = "test")
+    public String runTest() {
+        testService.deleteAccount();
+        return "/";
+    }
+
 
     // ======== registration ========
     // can create another controller class for cleaner
@@ -119,6 +129,8 @@ public class FishController {
         return "/about";
     }
 
+    // TODO use this to create error for login form
+    // http://www.nakov.com/blog/2016/08/05/creating-a-blog-system-with-spring-mvc-thymeleaf-jpa-and-mysql/
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String openLoginPage(Model model) {
         return "/login";
