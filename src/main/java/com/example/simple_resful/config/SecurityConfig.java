@@ -2,6 +2,7 @@ package com.example.simple_resful.config;
 
 import com.example.simple_resful.service.MyAppUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/about", "/home", "/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/actuator/**").hasRole("ADMIN") // TODO must implement this
+//                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
                 .antMatchers("/control/**").hasAnyRole("ADMIN", "USER")
                 .and().formLogin()
                     .loginPage("/login")

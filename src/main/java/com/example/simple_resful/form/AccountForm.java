@@ -17,6 +17,9 @@ public class AccountForm {
     private String password;
     @NotEmpty
     private String confirmPassword;
+    // ROLE USER: all person who login page is role person
+    // ROLE ADMIN: only one, who has privilege to control, monitoring, shutdown app
+    // ROLE ACTUATOR: manage actuator
     private String role = "ROLE_ADMIN"; // default who register will be admin
 
     public void setConfirmUsername(String confirmUsername) {

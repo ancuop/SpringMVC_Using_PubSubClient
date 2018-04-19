@@ -8,8 +8,10 @@ import java.util.Set;
 @Entity
 @Table(name = "account")
 public class Account {
+    /* phai dung GenerationType.IDENTITY, neu dung AUTO thi se chay sai
+    *  Hibernate-sequence doesn't exist */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Column(name = "username", nullable = false, unique = true)

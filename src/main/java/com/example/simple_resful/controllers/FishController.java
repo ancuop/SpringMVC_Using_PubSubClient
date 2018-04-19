@@ -38,11 +38,11 @@ public class FishController {
 
     private List<FishControl> fishControls = new ArrayList<>();
 
-    @GetMapping(name = "test")
-    public String runTest() {
-        testService.deleteAccount();
-        return "/";
-    }
+//    @GetMapping(name = "test")
+//    public String runTest() {
+//        testService.deleteAccount();
+//        return "/";
+//    }
 
 
     // ======== registration ========
